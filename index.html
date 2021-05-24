@@ -113,7 +113,25 @@ let era = new Vue({
 
             fetch("https://qr-code-my-project.herokuapp.com/", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => update())
+            .catch(error => console.log('error', error));
+        },
+        update(){
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            fetch("https://qr-code-my-project.herokuapp.com/", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+
+                self.orderInfo = JSON.parse(result);
+            })
             .catch(error => console.log('error', error));
         }
     }
