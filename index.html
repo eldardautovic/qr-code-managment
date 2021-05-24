@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <div class="header">
+            <div class="content">
+              <i class="fas fa-mug-hot"></i>
+              <h1>QR Caffe</h1>
+              <h2>MANAGMENT VIEW</h2>
+            </div>
+          </div>
+
+          <main>
+              <ul v-if="orderInfo.length > 0">
+                  <li v-for="order in orderInfo" :key="order.id">
+                      <div class="tableInfo">
+                          <h1>STOL: {{order.tableId}}</h1>
+                          <i @click="era.delete(order.id)" class="fas fa-times"></i>
+                      </div>
+                      <div class="order">
+                          <h4>Narudzba:</h5>
+                          <p>{{order.orderList}}</p>
+                      </div>
+                      <h4>Napomena:</h4>
+                      <p>{{order.note}}</p>
+                  </li>
+              </ul>
+
+              <div v-else class="noOrders">
+                  <h1> NEMA NARUDZBI</h1>
+              </div>
+          </main>
+    
+    </div>
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js" integrity="sha512-L6Z/YtIPQ7eU3BProP34WGU5yIRk7tNHk7vaC2dB1Vy1atz6wl9mCkTPPZ2Rn1qPr+vY2mZ9odZLdGYuaBk7dQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+let era = new Vue({
+  el: '#app',
+  data: {
+     orderInfo: []
+  },
+    created(){
+
+        const self = this;
+
+        setInterval( () => { 
+
+            var responseMy = [];
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            fetch("https://qr-code-my-project.herokuapp.com/", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+
+                let decoy = JSON.parse(result);
+
+                if(decoy.length > self.orderInfo.length){
+
+                    self.orderInfo = JSON.parse(result);
+
+                    var sound = new Howl({
+                        src: "./sms.mp3",
+                        volume: 0.5,
+                    });
+
+                    sound.play();
+                    
+                } else if( decoy.length < self.orderInfo.length){
+
+                    self.orderInfo = JSON.parse(result);
+                }
+
+                
+            })
+            .catch(error => console.log('error', error));
+
+         }, 30000);
+    },
+    methods:{
+
+        delete(orderId){
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({"orderId": orderId});
+
+            var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+            };
+
+            fetch("https://qr-code-my-project.herokuapp.com/", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        }
+    }
+})
+</script>
+</html>

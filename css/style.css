@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pattaya&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Noto Sans JP";
+}
+
+.header {
+  margin-top: 20px;
+  padding: 40px;
+  text-align: center;
+  color: #333;
+  background: #f3f3f3;
+  max-width: 100%;
+  margin: auto;
+}
+
+.header h1 {
+  font-family: "Pattaya";
+}
+
+.content {
+  animation: slidein 2s infinite;
+}
+
+.header i {
+  color: #ff8300;
+  font-size: 40px;
+  padding-bottom: 6px;
+}
+
+.header h1 {
+  font-size: 25px;
+  color: #333;
+}
+
+.header img {
+  width: 100px;
+  height: 100px;
+  padding-bottom: 10px;
+}
+
+@keyframes slidein {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes appear {
+  0% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+ul {
+  padding-top: 40px;
+  list-style-type: none;
+  max-width: 500px;
+  margin: auto;
+}
+
+li {
+  color: #333;
+  border-radius: 2px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  padding: 20px;
+  margin-bottom: 40px;
+  animation: appear 1s;
+}
+
+li i {
+  cursor: pointer;
+}
+
+li h1 {
+  font-size: 40px;
+  padding-left: 10px;
+}
+
+li .order {
+  max-width: 300px;
+  margin: auto;
+  overflow-wrap: break-word;
+  padding: 10px;
+}
+
+li p {
+  padding-left: 20px;
+}
+
+li h4 {
+  padding-left: 10px;
+}
+
+.tableInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noOrders {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #333;
+}
